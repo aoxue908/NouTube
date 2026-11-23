@@ -28,6 +28,7 @@ import { ObservableHint } from '@legendapp/state'
 import { mainClient } from '@/lib/main-client'
 import { onDownloadProgress } from '@/lib/download-progress'
 import { describeDownloadError } from '@/lib/download-error'
+import { lookupWordNative } from '@/lib/word-lookup'
 import { t } from 'i18next'
 import { downloads$ } from '@/states/downloads'
 import { resolveUserAgent } from '@/lib/useragent'
@@ -155,6 +156,13 @@ const getContentSettingsSnapshot = () => {
     translationTargetLanguage,
     replaceWatchNavigation,
     useSystemCaptionStyle,
+    interactiveSubtitles,
+    interactiveSubtitleStyle,
+    interactiveSubtitleColor,
+    interactiveSubtitleTextColor,
+    interactiveSubtitleFontSize,
+    interactiveSubtitleFontFamily,
+    interactiveSubtitlePosition,
   } = settings$.get()
   return {
     sponsorBlock,
@@ -170,6 +178,13 @@ const getContentSettingsSnapshot = () => {
     translateComments: !isWeb && translateComments && Boolean(translationTargetLanguage),
     replaceWatchNavigation,
     captionStyle: useSystemCaptionStyle ? getSystemCaptionStyle() : null,
+    interactiveSubtitles,
+    interactiveSubtitleStyle,
+    interactiveSubtitleColor,
+    interactiveSubtitleTextColor,
+    interactiveSubtitleFontSize,
+    interactiveSubtitleFontFamily,
+    interactiveSubtitlePosition,
   }
 }
 
@@ -375,6 +390,13 @@ const DesktopTabView: React.FC<{
   useObserveEffect(settings$.showDislikes, () => syncSettingsToWebview())
   useObserveEffect(settings$.showOriginalVideoTitle, () => syncSettingsToWebview())
   useObserveEffect(settings$.doubleTapToToggleHeader, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitles, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleStyle, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleColor, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleTextColor, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleFontSize, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleFontFamily, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitlePosition, () => syncSettingsToWebview())
   useObserveEffect(userStyles$, () => syncUserStylesToWebview())
   useObserveEffect(blocklist$, () => syncBlocklistToWebview())
   useEffect(() => {
@@ -535,7 +557,10 @@ export const MainPageContent: React.FC<{ contentJs: string }> = ({ contentJs }) 
       if (payload.done) {
         if (payload.error) {
           console.error('download error', payload)
-          const { messageKey, detail } = describeDownloadError(payload.line || '', isIos)
+          const { messageKey, detail } = describeDownloadError(
+            payload.line || (payload.error ? String(payload.error) : ''),
+            isIos,
+          )
           downloads$[payload.url].assign({
             phase: 'error',
             errorMsg: messageKey ? t(messageKey) : detail || t('modals.downloadFailed'),
@@ -665,7 +690,7 @@ export const MainPageContent: React.FC<{ contentJs: string }> = ({ contentJs }) 
       // redirects must not update history, advance the queue, or open a page.
       if (
         source === 'player' && !ui$.playerUrl.get() &&
-        !['onload', 'play-state', '[content]', '[kotlin]', 'log'].includes(type)
+        !['onload', 'play-state', '[content]', '[kotlin]', 'log', 'lookup-word', 'speak-text', 'subtitle-position', 'subtitle-style', 'subtitle-enabled'].includes(type)
       ) return
       // The hidden webview keeps running; its chrome events would fight the
       // page the user is actually looking at.
@@ -701,6 +726,80 @@ export const MainPageContent: React.FC<{ contentJs: string }> = ({ contentJs }) 
               x: Number(data.x) || 16,
               y: Number(data.y) || 96,
             })
+          }
+          break
+        case 'lookup-word':
+          // Tapping a word in the independent subtitle layer. Deliberately do
+          // NOT open the native TranslationCard: it floats above the WebView,
+          // and when the ML Kit model has not been downloaded it shows a blank
+          // card that completely covers the in-page word card -- which read as
+          // "tapping a word gives no definition". The dictionary result is
+          // injected straight into the page instead.
+          if (!isWeb && typeof data?.text === 'string' && data.text.trim()) {
+            const word = data.text.trim()
+            void lookupWordNative(word).then((detail) => {
+              if (!detail) return
+              const script = `window.dispatchEvent(new CustomEvent('nou:word-meaning',{detail:${JSON.stringify(detail)}}))`
+              // The tap can come from either WebView (browse or player), and
+              // picking the wrong one silently loses the result. Inject into
+              // every live instance; the event is harmless on the others.
+              const targets = new Set<any>()
+              for (const ref of [playerRef.current, nativeRef.current, ui$.webview.get()]) {
+                if (ref) targets.add(ref)
+              }
+              for (const target of targets) {
+                try {
+                  void Promise.resolve(target?.executeJavaScript?.(script)).catch(() => undefined)
+                } catch {
+                  /* the page has its own network fallback */
+                }
+              }
+            })
+          }
+          break
+        case 'speak-text':
+          // Edge-TTS synthesis must run in RN: YouTube's CSP blocks the
+          // speech.platform.bing.com WebSocket from inside the WebView.
+          if (!isWeb && typeof data?.text === 'string' && data.text.trim()) {
+            const { synthesizeEdgeTts } = await import('@/lib/edge-tts')
+            void synthesizeEdgeTts(data.text, String(data.voice || 'en-US-AriaNeural')).then((b64) => {
+              if (!b64) return // page keeps its dictvoice fallback
+              const script =
+                `window.dispatchEvent(new CustomEvent('nou:tts-audio',{detail:${JSON.stringify({
+                  id: data.id,
+                  text: data.text,
+                  voice: data.voice,
+                  base64: b64,
+                })}}))`
+              const targets = new Set<any>()
+              for (const ref of [playerRef.current, nativeRef.current, ui$.webview.get()]) {
+                if (ref) targets.add(ref)
+              }
+              for (const target of targets) {
+                try {
+                  void Promise.resolve(target?.executeJavaScript?.(script)).catch(() => undefined)
+                } catch { /* noop */ }
+              }
+            })
+          }
+          break
+        case 'subtitle-enabled':
+          // Master switch inside the WebView subtitle menu.
+          if (typeof data?.value === 'boolean') {
+            settings$.interactiveSubtitles.set(data.value)
+          }
+          break
+        case 'subtitle-style':
+          // Karaoke / rolling switch lives in the WebView subtitle menu; keep
+          // the App setting in sync so both surfaces agree.
+          if (typeof data?.value === 'string' && (data.value === 'karaoke' || data.value === 'rolling')) {
+            settings$.interactiveSubtitleStyle.set(data.value)
+          }
+          break
+        case 'subtitle-position':
+          // Dragging the caption layer vertically persists its position.
+          if (typeof data?.value === 'number' && Number.isFinite(data.value)) {
+            settings$.interactiveSubtitlePosition.set(Math.min(70, Math.max(2, data.value)))
           }
           break
         case 'open-watch':
@@ -1026,6 +1125,13 @@ export const MainPageContent: React.FC<{ contentJs: string }> = ({ contentJs }) 
   useObserveEffect(settings$.translateComments, () => syncSettingsToWebview())
   useObserveEffect(settings$.translationTargetLanguage, () => syncSettingsToWebview())
   useObserveEffect(settings$.useSystemCaptionStyle, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitles, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleStyle, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleColor, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleTextColor, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleFontSize, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitleFontFamily, () => syncSettingsToWebview())
+  useObserveEffect(settings$.interactiveSubtitlePosition, () => syncSettingsToWebview())
 
   // Track whether Android runs us on a desktop-class screen. The manual
   // desktop-site override only lasts for one such session, so drop it whenever

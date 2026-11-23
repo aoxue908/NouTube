@@ -244,6 +244,246 @@ export const SettingsActionRow: React.FC<{
   )
 }
 
+const SUBTITLE_COLORS = ['#ffd54a', '#ff5d5d', '#5ddc8a', '#59b4ff', '#d98cff', '#ffffff']
+
+const SubtitleColorRow: React.FC<{ isLast?: boolean }> = ({ isLast = false }) => {
+  const tw = useTwColor()
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme !== 'light'
+  const color = useValue(settings$.interactiveSubtitleColor)
+  const enabled = useValue(settings$.interactiveSubtitles)
+  return (
+    <View
+      className={clsx(
+        'flex-row items-center gap-3 px-4 py-4',
+        enabled ? 'opacity-100' : 'opacity-40',
+        !isLast && 'border-b-2 border-zinc-100 dark:border-zinc-950',
+      )}
+      pointerEvents={enabled ? 'auto' : 'none'}
+    >
+      <View className={iconWrapCls}>
+        <MaterialIcons name="palette" color={isDark ? tw('zinc-300') : tw('slate-600')} size={18} />
+      </View>
+      <View className="flex-1">
+        <NouText className="font-medium">{t('settings.interactiveSubtitles.colorLabel')}</NouText>
+      </View>
+      <View className="flex-row items-center gap-2">
+        {SUBTITLE_COLORS.map((swatch) => (
+          <Pressable
+            key={swatch}
+            onPress={() => settings$.interactiveSubtitleColor.set(swatch)}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: color === swatch }}
+            style={{
+              width: 22,
+              height: 22,
+              borderRadius: 11,
+              backgroundColor: swatch,
+              borderWidth: color === swatch ? 3 : 1,
+              borderColor: color === swatch ? (isDark ? tw('zinc-100') : tw('zinc-800')) : 'rgba(128,128,128,0.4)',
+            }}
+          />
+        ))}
+      </View>
+    </View>
+  )
+}
+
+const SubtitleStyleRow: React.FC = () => {
+  const tw = useTwColor()
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme !== 'light'
+  const current = useValue(settings$.interactiveSubtitleStyle)
+  const enabled = useValue(settings$.interactiveSubtitles)
+  return (
+    <View
+      className={clsx(
+        'flex-row items-center gap-3 px-4 py-4 border-b-2 border-zinc-100 dark:border-zinc-950',
+        enabled ? 'opacity-100' : 'opacity-40',
+      )}
+      pointerEvents={enabled ? 'auto' : 'none'}
+    >
+      <View className={iconWrapCls}>
+        <MaterialIcons name="subtitles" color={isDark ? tw('zinc-300') : tw('slate-600')} size={18} />
+      </View>
+      <NouText className="flex-1 font-medium">{t('settings.interactiveSubtitles.styleLabel')}</NouText>
+      <Segmented
+        options={[
+          t('settings.interactiveSubtitles.styleKaraoke'),
+          t('settings.interactiveSubtitles.styleRolling'),
+        ]}
+        selectedIndex={current === 'rolling' ? 1 : 0}
+        size={1}
+        onChange={(index) => settings$.interactiveSubtitleStyle.set(index === 1 ? 'rolling' : 'karaoke')}
+      />
+    </View>
+  )
+}
+
+const SubtitleTextColors = ['#ffffff', '#ffe9a8', '#a8e6ff', '#b9ffcf', '#ffb3d9', '#e2d4ff']
+
+const SubtitleTextColorRow: React.FC = () => {
+  const tw = useTwColor()
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme !== 'light'
+  const color = useValue(settings$.interactiveSubtitleTextColor)
+  const enabled = useValue(settings$.interactiveSubtitles)
+  return (
+    <View
+      className={clsx(
+        'flex-row items-center gap-3 px-4 py-4 border-b-2 border-zinc-100 dark:border-zinc-950',
+        enabled ? 'opacity-100' : 'opacity-40',
+      )}
+      pointerEvents={enabled ? 'auto' : 'none'}
+    >
+      <View className={iconWrapCls}>
+        <MaterialIcons name="format-color-text" color={isDark ? tw('zinc-300') : tw('slate-600')} size={18} />
+      </View>
+      <View className="flex-1">
+        <NouText className="font-medium">{t('settings.interactiveSubtitles.textColorLabel')}</NouText>
+      </View>
+      <View className="flex-row items-center gap-2">
+        {SubtitleTextColors.map((swatch) => (
+          <Pressable
+            key={swatch}
+            onPress={() => settings$.interactiveSubtitleTextColor.set(swatch)}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: color === swatch }}
+            style={{
+              width: 22,
+              height: 22,
+              borderRadius: 11,
+              backgroundColor: swatch,
+              borderWidth: color === swatch ? 3 : 1,
+              borderColor: color === swatch ? (isDark ? '#f4f4f5' : '#27272a') : 'rgba(128,128,128,0.4)',
+            }}
+          />
+        ))}
+      </View>
+    </View>
+  )
+}
+
+const SUBTITLE_FONT_SIZES = [0, 14, 18, 22, 26, 32, 40]
+
+const SubtitleFontSizeRow: React.FC = () => {
+  const tw = useTwColor()
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme !== 'light'
+  const size = useValue(settings$.interactiveSubtitleFontSize)
+  const enabled = useValue(settings$.interactiveSubtitles)
+  return (
+    <View
+      className={clsx(
+        'flex-row items-center gap-3 px-4 py-4 border-b-2 border-zinc-100 dark:border-zinc-950',
+        enabled ? 'opacity-100' : 'opacity-40',
+      )}
+      pointerEvents={enabled ? 'auto' : 'none'}
+    >
+      <View className={iconWrapCls}>
+        <MaterialIcons name="format-size" color={isDark ? tw('zinc-300') : tw('slate-600')} size={18} />
+      </View>
+      <View className="flex-1">
+        <NouText className="font-medium">{t('settings.interactiveSubtitles.fontSizeLabel')}</NouText>
+      </View>
+      <NouMenu
+        trigger={
+          <NouButton size="1" variant="outline" onPress={() => {}}>
+            {size === 0 ? t('settings.interactiveSubtitles.fontSizeAuto') : `${size}px`}
+          </NouButton>
+        }
+        items={SUBTITLE_FONT_SIZES.map((value) => ({
+          label: value === 0 ? t('settings.interactiveSubtitles.fontSizeAuto') : `${value}px`,
+          handler: () => settings$.interactiveSubtitleFontSize.set(value),
+          metaLabel: size === value ? '✓' : undefined,
+        }))}
+      />
+    </View>
+  )
+}
+
+const SUBTITLE_FONT_FAMILIES = [
+  { value: 'default', key: 'fontDefault' },
+  { value: 'serif', key: 'fontSerif' },
+  { value: 'mono', key: 'fontMono' },
+  { value: 'rounded', key: 'fontRounded' },
+] as const
+
+const SubtitleFontFamilyRow: React.FC = () => {
+  const tw = useTwColor()
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme !== 'light'
+  const family = useValue(settings$.interactiveSubtitleFontFamily)
+  const enabled = useValue(settings$.interactiveSubtitles)
+  const label = (key: string) => t(`settings.interactiveSubtitles.${key}`)
+  return (
+    <View
+      className={clsx(
+        'flex-row items-center gap-3 px-4 py-4 border-b-2 border-zinc-100 dark:border-zinc-950',
+        enabled ? 'opacity-100' : 'opacity-40',
+      )}
+      pointerEvents={enabled ? 'auto' : 'none'}
+    >
+      <View className={iconWrapCls}>
+        <MaterialIcons name="font-download" color={isDark ? tw('zinc-300') : tw('slate-600')} size={18} />
+      </View>
+      <View className="flex-1">
+        <NouText className="font-medium">{t('settings.interactiveSubtitles.fontFamilyLabel')}</NouText>
+      </View>
+      <NouMenu
+        trigger={
+          <NouButton size="1" variant="outline" onPress={() => {}}>
+            {label(SUBTITLE_FONT_FAMILIES.find((f) => f.value === family)?.key ?? 'fontDefault')}
+          </NouButton>
+        }
+        items={SUBTITLE_FONT_FAMILIES.map((item) => ({
+          label: label(item.key),
+          handler: () => settings$.interactiveSubtitleFontFamily.set(item.value),
+          metaLabel: family === item.value ? '✓' : undefined,
+        }))}
+      />
+    </View>
+  )
+}
+
+const SubtitlePositionRow: React.FC<{ isLast?: boolean }> = ({ isLast = false }) => {
+  const tw = useTwColor()
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme !== 'light'
+  const position = useValue(settings$.interactiveSubtitlePosition)
+  const enabled = useValue(settings$.interactiveSubtitles)
+  return (
+    <View
+      className={clsx(
+        'flex-row items-center gap-3 px-4 py-4',
+        enabled ? 'opacity-100' : 'opacity-40',
+        !isLast && 'border-b-2 border-zinc-100 dark:border-zinc-950',
+      )}
+      pointerEvents={enabled ? 'auto' : 'none'}
+    >
+      <View className={iconWrapCls}>
+        <MaterialIcons name="vertical-align-bottom" color={isDark ? tw('zinc-300') : tw('slate-600')} size={18} />
+      </View>
+      <View className="flex-1">
+        <NouText className="font-medium">{t('settings.interactiveSubtitles.positionLabel')}</NouText>
+        <NouText className="mt-1 text-sm leading-5 text-zinc-600 dark:text-zinc-400">
+          {t('settings.interactiveSubtitles.positionHint')}
+        </NouText>
+      </View>
+      <View className="flex-row items-center gap-2">
+        <NouText className="min-w-10 text-right text-sm font-semibold">{Math.round(position)}%</NouText>
+        <Pressable
+          onPress={() => settings$.interactiveSubtitlePosition.set(12)}
+          accessibilityRole="button"
+          style={{ padding: 6 }}
+        >
+          <MaterialIcons name="restart-alt" color={isDark ? tw('zinc-300') : tw('slate-600')} size={20} />
+        </Pressable>
+      </View>
+    </View>
+  )
+}
+
 const SettingsDiscordSection = () => {
   const enabled = useValue(settings$.discordPresence)
   const [loggedIn, setLoggedIn] = useState(false)
@@ -662,26 +902,38 @@ export const SettingsYouTubeContent = () => {
               icon="thumb-down"
               value={settings.showDislikes}
               onPress={() => settings$.showDislikes.set(!settings.showDislikes)}
-              isLast={!hasSystemCaptionStyleSupport()}
             />
             {nIf(
               hasSystemCaptionStyleSupport(),
-              <>
-                <SettingsToggleRow
-                  label={t('settings.systemCaptionStyle.label')}
-                  icon="closed-caption"
-                  value={settings.useSystemCaptionStyle}
-                  onPress={() => settings$.useSystemCaptionStyle.set(!settings.useSystemCaptionStyle)}
-                />
-                <SettingsActionRow
-                  label={t('settings.systemCaptionStyle.openSystemSettings')}
-                  description={t('settings.systemCaptionStyle.hint')}
-                  icon="settings"
-                  onPress={() => openSystemCaptionSettings()}
-                  isLast
-                />
-              </>,
+              <SettingsToggleRow
+                label={t('settings.systemCaptionStyle.label')}
+                icon="closed-caption"
+                value={settings.useSystemCaptionStyle}
+                onPress={() => settings$.useSystemCaptionStyle.set(!settings.useSystemCaptionStyle)}
+              />,
             )}
+            {nIf(
+              hasSystemCaptionStyleSupport(),
+              <SettingsActionRow
+                label={t('settings.systemCaptionStyle.openSystemSettings')}
+                description={t('settings.systemCaptionStyle.hint')}
+                icon="settings"
+                onPress={() => openSystemCaptionSettings()}
+              />,
+            )}
+            <SettingsToggleRow
+              label={t('settings.interactiveSubtitles.label')}
+              description={t('settings.interactiveSubtitles.hint')}
+              icon="graphic_eq"
+              value={settings.interactiveSubtitles}
+              onPress={() => settings$.interactiveSubtitles.set(!settings.interactiveSubtitles)}
+            />
+            <SubtitleStyleRow />
+            <SubtitleColorRow />
+            <SubtitleTextColorRow />
+            <SubtitleFontSizeRow />
+            <SubtitleFontFamilyRow />
+            <SubtitlePositionRow isLast />
           </View>
         </SettingsSection>
       </View>

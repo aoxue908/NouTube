@@ -17,10 +17,21 @@ import { installWatchNavigation } from './watch-nav'
 import { installFullscreenControls } from './fullscreen-controls'
 import { installIOSFullscreen } from './ios-fullscreen'
 import { installSystemCaptionStyle } from './captions'
+import { installInteractiveSubtitles } from './interactive-subtitles'
 import { installEncodedAuthorNameFix } from './author-names'
 import { guardMediaSessionHandlers, installBackgroundGuard } from './background-guard'
 import { installSplitView, navigateWatch, setMuted, setNativeMini } from './split-view'
 import { installPlayerGestures } from './player-gestures'
+
+// Isolate the optional subtitle layer: a failure here must never stop the rest
+// of the content script (CSS, observers, player handlers) from initializing.
+const safeInstallSubtitles = () => {
+  try {
+    installInteractiveSubtitles()
+  } catch (e) {
+    console.error('NouScript subtitles: ', e)
+  }
+}
 
 try {
   if ((window as any).NouTubePreferH264) {
@@ -56,12 +67,14 @@ try {
   if (document.documentElement) {
     injectCSS()
     installSystemCaptionStyle()
+    safeInstallSubtitles()
     emit('onload')
     initObserver()
   } else {
     document.addEventListener('DOMContentLoaded', () => {
       injectCSS()
       installSystemCaptionStyle()
+      safeInstallSubtitles()
       emit('onload')
       initObserver()
     })

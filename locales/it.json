@@ -259,7 +259,9 @@
       "pin": "Fissa traduzione",
       "unpin": "Rimuovi traduzione fissata",
       "failed": "Impossibile tradurre questo testo",
-      "unsupported": "Questa coppia di lingue non è disponibile su questo dispositivo"
+      "unsupported": "Questa coppia di lingue non è disponibile su questo dispositivo",
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
     },
     "hideShorts": "Nascondi gli Short nella sequenza",
     "hideShortsInNavbar": "Nascondi gli Short nella barra di navigazione",
@@ -434,7 +436,25 @@
     "forceLandscape": "Forza orientamento orizzontale",
     "forceLandscapeDescription": "Sui telefoni, mantieni l'app in modalità orizzontale anche quando la rotazione automatica è disattivata. Su tablet e dispositivi pieghevoli aperti, Android potrebbe ignorare questa impostazione.",
     "feedPosts": "Post della community nel feed",
-    "feedPostsDescription": "Controlla anche la scheda Post di ciascun canale salvato. L'aggiornamento dei feed consuma più dati."
+    "feedPostsDescription": "Controlla anche la scheda Post di ciascun canale salvato. L'aggiornamento dei feed consuma più dati.",
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
+    }
   },
   "native": {
     "format_bestQuality": "Migliore qualità",

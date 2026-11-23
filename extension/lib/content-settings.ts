@@ -25,6 +25,28 @@ export const getContentSettings = (settings: RawSettings): ContentSettings => ({
   translateComments: false,
   replaceWatchNavigation: bool(settings?.replaceWatchNavigation),
   captionStyle: null,
+  interactiveSubtitles: bool(settings?.interactiveSubtitles),
+  interactiveSubtitleStyle: settings?.interactiveSubtitleStyle === 'rolling' ? 'rolling' : 'karaoke',
+  interactiveSubtitleColor:
+    typeof settings?.interactiveSubtitleColor === 'string' && settings.interactiveSubtitleColor
+      ? settings.interactiveSubtitleColor
+      : '#ffd54a',
+  interactiveSubtitleTextColor:
+    typeof settings?.interactiveSubtitleTextColor === 'string' && settings.interactiveSubtitleTextColor
+      ? settings.interactiveSubtitleTextColor
+      : '#ffffff',
+  interactiveSubtitleFontSize:
+    typeof settings?.interactiveSubtitleFontSize === 'number' && Number.isFinite(settings.interactiveSubtitleFontSize)
+      ? Math.min(64, Math.max(0, settings.interactiveSubtitleFontSize))
+      : 0,
+  interactiveSubtitleFontFamily:
+    ['default', 'serif', 'mono', 'rounded'].includes(settings?.interactiveSubtitleFontFamily as string)
+      ? (settings!.interactiveSubtitleFontFamily as 'default' | 'serif' | 'mono' | 'rounded')
+      : 'default',
+  interactiveSubtitlePosition:
+    typeof settings?.interactiveSubtitlePosition === 'number' && Number.isFinite(settings.interactiveSubtitlePosition)
+      ? Math.min(70, Math.max(2, settings.interactiveSubtitlePosition))
+      : 12,
 })
 
 export const getHideShorts = (settings: RawSettings) => bool(settings?.hideShorts, true)

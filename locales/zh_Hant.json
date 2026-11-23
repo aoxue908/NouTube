@@ -126,5 +126,29 @@
     "emptyBodyWaiting": "您儲存的頻道已準備就緒。 將應用程式保持開啟狀態一段時間或稍後重新打開，最近上傳的內容將顯示在此。",
     "removeTitle": "刪除 {{title}}？",
     "removeMessage": "這將從資料庫中刪除該頻道並清除其訂閱源影片。"
+  },
+  "settings": {
+    "interactiveSubtitles": {
+      "label": "交互式字幕",
+      "hint": "独立绘制一层字幕：点击任意单词查词释义，按住字幕上下拖动可调整位置；关闭时 YouTube 原生字幕完全不受影响。",
+      "colorLabel": "高亮颜色",
+      "textColorLabel": "文字颜色",
+      "styleLabel": "字幕风格",
+      "styleKaraoke": "逐词高亮",
+      "styleRolling": "滚动字幕",
+      "fontSizeLabel": "字幕字号",
+      "fontSizeAuto": "自动",
+      "fontFamilyLabel": "字幕字体",
+      "fontDefault": "默认",
+      "fontSerif": "衬线",
+      "fontMono": "等宽",
+      "fontRounded": "圆体",
+      "positionLabel": "垂直位置",
+      "positionHint": "在画面上按住字幕上下拖动即可调整，点重置图标恢复默认。"
+    },
+    "translation": {
+      "wordLookup": "单词释义",
+      "meaning": "释义 / 参考译文"
+    }
   }
 }

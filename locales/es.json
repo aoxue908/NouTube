@@ -358,7 +358,9 @@
       "pin": "Fijar traducción",
       "unpin": "Desfijar traducción",
       "failed": "No se pudo traducir este texto",
-      "unsupported": "Este par de idiomas no está disponible en este dispositivo"
+      "unsupported": "Este par de idiomas no está disponible en este dispositivo",
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
     },
     "replaceWatchNavigation": "El botón \"Atrás\" omite los videos ya vistos",
     "importSettings": "Importar configuración",
@@ -412,6 +414,24 @@
     "dynamicColor": {
       "label": "Color dinámico",
       "hint": "Usar la paleta de colores del sistema."
+    },
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
     }
   },
   "native": {

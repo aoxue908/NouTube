@@ -1,0 +1,19 @@
+Japanese compound readings in content/phonetics-data.ts are augmented from
+JMdict, compiled by Jim Breen and the Electronic Dictionary Research and
+Development Group (EDRDG), Monash University.
+
+JMdict / EDICT is distributed under the Creative Commons Attribution-ShareAlike
+4.0 International License (CC BY-SA 4.0).
+
+You are free to share and adapt this material, provided that you:
+  - Attribute: give appropriate credit, link to the license, and indicate
+    whether changes were made.
+  - Share Alike: distribute any adapted material under the same or a
+    compatible license.
+
+Source dictionary (common-word pack, jmdict-simplified):
+  https://github.com/scriptin/jmdict-simplified
+JMdict / EDRDG project:
+  https://www.edrdg.org/
+License deed:
+  https://creativecommons.org/licenses/by-sa/4.0/

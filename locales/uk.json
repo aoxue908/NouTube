@@ -352,7 +352,9 @@
       "pin": "Закріпити переклад",
       "unpin": "Відкріпити переклад",
       "failed": "Не вдалось перекласти цей текст",
-      "unsupported": "Ця мовна пара не доступна на цьому приладі"
+      "unsupported": "Ця мовна пара не доступна на цьому приладі",
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
     },
     "discord": {
       "label": "Discord",
@@ -362,7 +364,25 @@
     },
     "showSleepTimerButtonInHeader": "Показувати кнопку Таймер сну на панелі",
     "showLibraryButtonInHeader": "Показувати кнопку Бібіліотека на панелі",
-    "mediaNotificationButtons": "Кнопка медіа сповіщень"
+    "mediaNotificationButtons": "Кнопка медіа сповіщень",
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
+    }
   },
   "native": {
     "download_complete": "Завантаження завершено",

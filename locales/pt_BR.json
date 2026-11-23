@@ -295,7 +295,9 @@
       "pin": "Fixar tradução",
       "unpin": "Desafixar tradução",
       "failed": "Não foi possível traduzir este texto",
-      "unsupported": "Este par de idiomas não está disponível neste dispositivo"
+      "unsupported": "Este par de idiomas não está disponível neste dispositivo",
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
     },
     "miniPlayerHint": "Ao deixar um vídeo aberto, ele continua sendo reproduzido em um canto da página.",
     "pictureInPicture": "Picture-in-picture (PiP)",
@@ -354,7 +356,25 @@
     "forceLandscape": "Forçar orientação para o modo paisagem",
     "forceLandscapeDescription": "Mantenha o aplicativo na orientação para o modo paisagem em celulares, mesmo quando a rotação automática estiver desativada. O Android pode ignorar essa configuração em tablets e dispositivos dobráveis quando estiverem abertos.",
     "feedPosts": "Postagens da comunidade no feed",
-    "feedPostsDescription": "Verifique também a aba “Postagens” de cada canal salvo. Atualizar os feeds consome mais dados."
+    "feedPostsDescription": "Verifique também a aba “Postagens” de cada canal salvo. Atualizar os feeds consome mais dados.",
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
+    }
   },
   "sync": {
     "label": "Sincronizar",

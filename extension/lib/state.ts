@@ -16,6 +16,13 @@ export interface ContentSettings {
   translateComments: boolean
   replaceWatchNavigation: boolean
   captionStyle: null
+  interactiveSubtitles: boolean
+  interactiveSubtitleStyle: 'karaoke' | 'rolling'
+  interactiveSubtitleColor: string
+  interactiveSubtitleTextColor: string
+  interactiveSubtitleFontSize: number
+  interactiveSubtitleFontFamily: 'default' | 'serif' | 'mono' | 'rounded'
+  interactiveSubtitlePosition: number
 }
 
 export const clickbaitThumbnails = ['default', 'hq1', 'hq2', 'hq3'] as const

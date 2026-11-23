@@ -217,7 +217,29 @@
     "exportLabel": "Exportar favoritos para uma lista",
     "injectCookie": "Injetar cookie se não for possível fazer login do Webview",
     "injectCookieTitle": "Injetar cookie de autenticação no Webview",
-    "injectCookieHint": "Copiar valores do cabeçalho e cookies do navegador no seu computador. Esta é uma solução alternativa quando você não consegue fazer login com o seu e-mail/palavra-passe."
+    "injectCookieHint": "Copiar valores do cabeçalho e cookies do navegador no seu computador. Esta é uma solução alternativa quando você não consegue fazer login com o seu e-mail/palavra-passe.",
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
+    },
+    "translation": {
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
+    }
   },
   "native": {
     "format_bestQuality": "Melhor qualidade",

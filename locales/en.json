@@ -275,7 +275,9 @@
       "pin": "Pin translation",
       "unpin": "Unpin translation",
       "failed": "Couldn’t translate this text",
-      "unsupported": "This language pair is unavailable on this device"
+      "unsupported": "This language pair is unavailable on this device",
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
     },
     "hideShorts": "Hide shorts in timeline",
     "hideShortsInNavbar": "Hide shorts in navbar",
@@ -446,7 +448,25 @@
     "preferencesComments": "Comments",
     "sidebar": "Sidebar",
     "preferencesYouTubeHint": "YouTube preferences",
-    "preferencesNouTubeHint": "NouTube preferences"
+    "preferencesNouTubeHint": "NouTube preferences",
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
+    }
   },
   "native": {
     "format_bestQuality": "Best quality",

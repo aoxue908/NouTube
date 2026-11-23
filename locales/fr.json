@@ -297,7 +297,9 @@
       "pin": "Épingler la traduction",
       "unpin": "Détacher la traduction",
       "failed": "Impossible de traduire ce texte",
-      "unsupported": "Cette combinaison linguistique n'est pas disponible sur cet appareil."
+      "unsupported": "Cette combinaison linguistique n'est pas disponible sur cet appareil.",
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
     },
     "replaceWatchNavigation": "Retour aux vidéos visionnées",
     "importSettings": "Importer les paramètres",
@@ -360,7 +362,25 @@
     "forceLandscape": "Forcer l'orientation paysage",
     "forceLandscapeDescription": "Veillez à ce que l'application reste en mode paysage sur les téléphones, même lorsque la rotation automatique est désactivée. Android peut ne pas tenir compte de ce paramètre sur les tablettes et les appareils pliables dépliés.",
     "feedPosts": "Publications de la communauté dans le fil d'actualité",
-    "feedPostsDescription": "Pensez également à consulter l'onglet « Publications » de chaque chaîne enregistrée. L'actualisation des flux consomme davantage de données."
+    "feedPostsDescription": "Pensez également à consulter l'onglet « Publications » de chaque chaîne enregistrée. L'actualisation des flux consomme davantage de données.",
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
+    }
   },
   "sync": {
     "label": "Synchronisation",

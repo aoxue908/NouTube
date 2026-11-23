@@ -110,4 +110,24 @@ describe('settings', () => {
     const settings = normalizeSettings<Partial<SettingsSnapshot>>({ miniPlayerPosition: { x: 2, y: -1 } })
     expect(settings?.miniPlayerPosition).toEqual({ x: 1, y: 0 })
   })
+
+  it('repairs the legacy disabled subtitle layer exactly once', () => {
+    // Early builds migrated `karaokeHighlight:false` (its default) into
+    // `interactiveSubtitles`, leaving existing installs stuck showing
+    // YouTube's native fragmented captions with no way to reach the settings.
+    const legacyOff = normalizeSettings({ karaokeHighlight: false } as Partial<SettingsSnapshot>)
+    expect(legacyOff?.interactiveSubtitles).toBe(true)
+
+    // The bad value may already be persisted without the legacy key.
+    const persistedFalse = normalizeSettings<Partial<SettingsSnapshot>>({ interactiveSubtitles: false })
+    expect(persistedFalse?.interactiveSubtitles).toBe(true)
+    expect(persistedFalse?.interactiveSubtitlesResetV2).toBe(true)
+
+    // Once repaired, the user's own OFF choice is respected forever.
+    const userOff = normalizeSettings<Partial<SettingsSnapshot>>({
+      interactiveSubtitles: false,
+      interactiveSubtitlesResetV2: true,
+    })
+    expect(userOff?.interactiveSubtitles).toBe(false)
+  })
 })

@@ -288,7 +288,9 @@
       "pin": "固定翻译",
       "unpin": "取消固定翻译",
       "failed": "无法翻译此文本",
-      "unsupported": "此设备上不支持此语言对"
+      "unsupported": "此设备上不支持此语言对",
+      "wordLookup": "单词释义",
+      "meaning": "释义 / 参考译文"
     },
     "replaceWatchNavigation": "返回跳过已观看的视频",
     "importSettings": "导入设置",
@@ -331,6 +333,24 @@
     "dynamicColor": {
       "label": "动态配色",
       "hint": "使用您的系统调色板。"
+    },
+    "interactiveSubtitles": {
+      "label": "交互式字幕",
+      "hint": "独立绘制一层字幕：点击任意单词查词释义，按住字幕上下拖动可调整位置；关闭时 YouTube 原生字幕完全不受影响。",
+      "colorLabel": "高亮颜色",
+      "textColorLabel": "文字颜色",
+      "styleLabel": "字幕风格",
+      "styleKaraoke": "逐词高亮",
+      "styleRolling": "滚动字幕",
+      "fontSizeLabel": "字幕字号",
+      "fontSizeAuto": "自动",
+      "fontFamilyLabel": "字幕字体",
+      "fontDefault": "默认",
+      "fontSerif": "衬线",
+      "fontMono": "等宽",
+      "fontRounded": "圆体",
+      "positionLabel": "垂直位置",
+      "positionHint": "在画面上按住字幕上下拖动即可调整，点重置图标恢复默认。"
     }
   },
   "sync": {

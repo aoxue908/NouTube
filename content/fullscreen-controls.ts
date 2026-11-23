@@ -1,5 +1,6 @@
 import { formatPlaybackQuality, playbackQualities } from '../lib/playback-quality'
 import { formatPlaybackRate, playbackRatesWith } from '../lib/playback-rate'
+import { SUBTITLE_LAYER_ID } from './subtitle-host'
 import { nouPolicy, nouStorage, parseJson } from './utils'
 
 const btnId = '_nou_fs_btn'
@@ -601,7 +602,18 @@ export function installFullscreenControls() {
   // YouTube rebuilds the control overlay during the fullscreen transition and
   // on video changes, so re-add the button whenever the player subtree changes.
   // The class attribute is watched too, for the desktop autohide flag.
-  const observer = new MutationObserver(() => {
+  const observer = new MutationObserver((records) => {
+    // The interactive subtitle layer shares this host and rewrites its word
+    // spans every frame. Those mutations are not player/control changes, so
+    // ignore them instead of re-rendering the fullscreen button 60x a second.
+    if (
+      records.every((record) => {
+        const node = record.target instanceof Element ? record.target : record.target.parentElement
+        return Boolean(node?.closest?.(`#${SUBTITLE_LAYER_ID}`))
+      })
+    ) {
+      return
+    }
     renderControlsButton()
     syncButtonVisibility()
   })

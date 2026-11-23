@@ -10,6 +10,7 @@ import {
 } from '@/lib/intercept'
 import { transformWatchResponseStream } from '@/lib/watch-response-stream'
 import { noAdFetchArgs, noAdRequestBody } from './no-ad-request'
+import { isCaptionRequestUrl, notifyCaptionPayload } from './caption-capture'
 
 const adsBlocked = () => window.NouTube?.getSettings?.()?.blockAds !== false
 
@@ -96,6 +97,14 @@ export function intercept() {
     const request = args[0]
     const url = request instanceof Request ? request.url : request.toString()
     let res = await winFetch(...((window as any).NouTubeNoAdRequests && adsBlocked() ? await noAdFetchArgs(args) : args))
+    // Wordy-style caption capture. clone() leaves the response body untouched.
+    // This is the fallback for videos where the caption track URL cannot be
+    // read from the player response but YouTube still fetches a caption track.
+    if (isCaptionRequestUrl(url)) {
+      try {
+        notifyCaptionPayload(url, await res.clone().text())
+      } catch { /* a failed clone must never break the page's caption request */ }
+    }
     // Relative to the page, as fetch itself resolves it: without a base a relative
     // url throws here and turns a response that arrived fine into a rejection.
     const match = new URL(url, location.origin).pathname.match(RE_INTERCEPT)
@@ -149,9 +158,20 @@ export function intercept() {
   const xhrOpen = XMLHttpRequest.prototype.open
   const xhrSend = XMLHttpRequest.prototype.send
   const playerEndpoints = new WeakMap<XMLHttpRequest, string>()
+  const captionUrls = new WeakMap<XMLHttpRequest, string>()
   XMLHttpRequest.prototype.send = function (body) {
     const endpoint = playerEndpoints.get(this)
     const rewritten = (window as any).NouTubeNoAdRequests && adsBlocked() && endpoint ? noAdRequestBody(endpoint, body) : null
+    const captionUrl = captionUrls.get(this)
+    if (captionUrl) {
+      this.addEventListener('load', () => {
+        if (this.status !== 200) return
+        try {
+          const text = typeof this.responseText === 'string' ? this.responseText : ''
+          notifyCaptionPayload(captionUrl, text)
+        } catch { /* responseType may forbid responseText */ }
+      })
+    }
     return xhrSend.call(this, (rewritten ?? body) as XMLHttpRequestBodyInit)
   }
   XMLHttpRequest.prototype.open = function (...args: any[]) {
@@ -159,6 +179,8 @@ export function intercept() {
     const parsed = new URL(url, location.origin)
     const endpoint = parsed.pathname.match(/^\/youtubei\/v1\/(player|get_watch)$/)?.[1]
     playerEndpoints.delete(this)
+    if (isCaptionRequestUrl(url)) captionUrls.set(this, url)
+    else captionUrls.delete(this)
     if (args[0].toUpperCase() === 'POST' && endpoint &&
         ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com'].includes(parsed.hostname)) {
       playerEndpoints.set(this, endpoint)

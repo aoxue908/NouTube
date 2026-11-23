@@ -297,7 +297,9 @@
       "pin": "Закрепить перевод",
       "unpin": "Открепить перевод",
       "failed": "Не удалось перевести текст",
-      "unsupported": "Эта языковая пара недоступна на этом устройстве"
+      "unsupported": "Эта языковая пара недоступна на этом устройстве",
+      "wordLookup": "Word lookup",
+      "meaning": "Meaning"
     },
     "replaceWatchNavigation": "Кнопка «Назад» пропускает просмотренные видео",
     "importSettings": "Импортировать настройки",
@@ -360,7 +362,25 @@
     "forceLandscape": "Принудительная альбомная ориентация",
     "forceLandscapeDescription": "Сохранять альбомную ориентацию приложения на телефонах, даже если автоповорот отключён. Android может игнорировать эту настройку на планшетах и раскрытых складных устройствах.",
     "feedPosts": "Записи сообществ в ленте",
-    "feedPostsDescription": "Также проверять вкладку «Записи» у каждого сохраненного канала. Обновление лент расходует больше трафика."
+    "feedPostsDescription": "Также проверять вкладку «Записи» у каждого сохраненного канала. Обновление лент расходует больше трафика.",
+    "interactiveSubtitles": {
+      "label": "Interactive subtitles",
+      "hint": "Draw a separate caption layer: tap any word to look it up, and drag the caption up or down to reposition it. YouTube captions are untouched when this is off.",
+      "colorLabel": "Highlight color",
+      "textColorLabel": "Text color",
+      "styleLabel": "Style",
+      "styleKaraoke": "Karaoke",
+      "styleRolling": "Rolling",
+      "fontSizeLabel": "Font size",
+      "fontSizeAuto": "Auto",
+      "fontFamilyLabel": "Font",
+      "fontDefault": "Default",
+      "fontSerif": "Serif",
+      "fontMono": "Monospace",
+      "fontRounded": "Rounded",
+      "positionLabel": "Vertical position",
+      "positionHint": "Drag the caption on the video to move it. Tap the reset icon to restore."
+    }
   },
   "sync": {
     "label": "Синхронизация",

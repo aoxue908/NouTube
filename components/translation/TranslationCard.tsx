@@ -29,8 +29,21 @@ export const TranslationCard = () => {
     let cancelled = false
     void translateText(request.text, request.targetLanguage)
       .then((value) => {
+        // The web stub of translateText throws, so TS infers `never` here;
+        // the native implementation returns this shape.
+        const translated = value as { text: string; sourceLanguage?: string } | null
         if (!cancelled && ui$.translation.get()?.id === request.id) {
-          setTranslationState({ requestId: request.id, result: value, error: null })
+          setTranslationState({ requestId: request.id, result: translated, error: null })
+          // Mirror the native (ML Kit) result into the in-page word card, so a
+          // tap shows a meaning even when the page's network lookup is blocked.
+          if (request.mode === 'word' && translated?.text) {
+            try {
+              const source = `window.dispatchEvent(new CustomEvent('nou:word-meaning',{detail:${JSON.stringify({ word: request.text, text: translated.text })}}))`
+              void Promise.resolve(ui$.webview.get()?.executeJavaScript?.(source)).catch(() => undefined)
+            } catch {
+              /* best effort; the in-page card has its own lookup */
+            }
+          }
         }
       })
       .catch((cause) => {
@@ -78,9 +91,11 @@ export const TranslationCard = () => {
     >
       <View className="flex-row items-center justify-between gap-2">
         <NouText className="text-sm font-semibold">
-          {result?.sourceLanguage
-            ? `${result.sourceLanguage} → ${request.targetLanguage}`
-            : t('settings.translation.loading')}
+          {request.mode === 'word'
+            ? t('settings.translation.wordLookup')
+            : result?.sourceLanguage
+              ? `${result.sourceLanguage} → ${request.targetLanguage}`
+              : t('settings.translation.loading')}
         </NouText>
         <View className="flex-row items-center gap-3">
           <Pressable
@@ -98,10 +113,25 @@ export const TranslationCard = () => {
         </View>
       </View>
       {nIf(
+        request.mode === 'word',
+        <View className="mt-3 rounded-lg bg-zinc-100 p-3 dark:bg-zinc-800">
+          <NouText className="text-lg font-semibold">{request.text}</NouText>
+          {nIf(
+            Boolean(request.sentence),
+            <NouText className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400" numberOfLines={3}>
+              {request.sentence}
+            </NouText>,
+          )}
+          <NouText className="mt-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            {t('settings.translation.meaning')}
+          </NouText>
+        </View>,
+      )}
+      {nIf(
         Boolean(result),
         <ScrollView
-          className="mt-3"
-          style={{ maxHeight: maxCardHeight - 116, marginRight: -16 }}
+          className="mt-2"
+          style={{ maxHeight: maxCardHeight - (request.mode === 'word' ? 218 : 116), marginRight: -16 }}
           contentContainerStyle={{ paddingRight: 16 }}
           nestedScrollEnabled
           persistentScrollbar

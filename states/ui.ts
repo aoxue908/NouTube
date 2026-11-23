@@ -70,6 +70,9 @@ interface Store {
     targetLanguage: string
     x: number
     y: number
+    // 'word' comes from tapping a word in the interactive subtitle layer.
+    mode?: 'word' | 'block'
+    sentence?: string
   } | null
 
   // webview

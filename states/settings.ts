@@ -44,6 +44,23 @@ export interface SettingsSnapshot {
   showDislikes: boolean
   showOriginalVideoTitle: boolean
   useSystemCaptionStyle: boolean
+  /** Independent subtitle layer: tap any word to look it up. Native YouTube
+   *  captions are left completely untouched when this is off. */
+  interactiveSubtitles: boolean
+  interactiveSubtitleStyle: 'karaoke' | 'rolling'
+  /** Colour of the word currently being spoken. */
+  interactiveSubtitleColor: string
+  /** Colour of the rest of the caption text. */
+  interactiveSubtitleTextColor: string
+  /** 0 = auto (responsive clamp), otherwise an explicit px size. */
+  interactiveSubtitleFontSize: number
+  interactiveSubtitleFontFamily: 'default' | 'serif' | 'mono' | 'rounded'
+  /** Distance from the bottom of the player, in percent (2..70). */
+  interactiveSubtitlePosition: number
+  /** One-time repair marker: early builds inherited `karaokeHighlight:false`
+   *  into the master switch, leaving existing installs stuck on native
+   *  captions. Absence of this flag forces the layer on exactly once. */
+  interactiveSubtitlesResetV2?: boolean
   showBackButtonInHeader: boolean
   showForwardButtonInHeader: boolean
   showHomeButtonInHeader: boolean
@@ -105,6 +122,23 @@ export const normalizeSettings = <T extends Partial<SettingsSnapshot> | undefine
   if (!data) {
     return data
   }
+  // v0.7.10 shipped this layer as `karaokeHighlight`. Carry the old choice
+  // over so an existing install keeps its switch state after the rename.
+  const legacy = data as Partial<SettingsSnapshot> & {
+    karaokeHighlight?: boolean
+    karaokeHighlightColor?: string
+  }
+  // Only carry over an explicit ON. The legacy flag defaulted to false, so
+  // migrating `false` silently disabled the whole layer for existing installs.
+  if (legacy.karaokeHighlight === true && typeof data.interactiveSubtitles !== 'boolean') {
+    data.interactiveSubtitles = true
+  }
+  if (legacy.karaokeHighlightColor && typeof data.interactiveSubtitleColor !== 'string') {
+    data.interactiveSubtitleColor = legacy.karaokeHighlightColor
+  }
+  delete legacy.karaokeHighlight
+  delete legacy.karaokeHighlightColor
+
   data.language = normalizeI18nLanguage(data.language)
   if (typeof data.forceLandscape !== 'boolean') {
     data.forceLandscape = false
@@ -206,6 +240,44 @@ export const normalizeSettings = <T extends Partial<SettingsSnapshot> | undefine
   if (typeof data.pictureInPicture !== 'boolean') {
     data.pictureInPicture = false
   }
+  if (typeof data.interactiveSubtitles !== 'boolean') {
+    data.interactiveSubtitles = true
+  }
+  // One-time repair for installs that already persisted `false` from the old
+  // legacy migration. After this flag is written, the user's own choice (the
+  // in-page master switch or the native Settings row) is respected forever.
+  if (data.interactiveSubtitlesResetV2 !== true) {
+    data.interactiveSubtitles = true
+    data.interactiveSubtitlesResetV2 = true
+  }
+  if (data.interactiveSubtitleStyle !== 'karaoke' && data.interactiveSubtitleStyle !== 'rolling') {
+    data.interactiveSubtitleStyle = 'karaoke'
+  }
+  if (typeof data.interactiveSubtitleColor !== 'string' || !data.interactiveSubtitleColor) {
+    data.interactiveSubtitleColor = '#ffd54a'
+  }
+  if (typeof data.interactiveSubtitleTextColor !== 'string' || !data.interactiveSubtitleTextColor) {
+    data.interactiveSubtitleTextColor = '#ffffff'
+  }
+  if (
+    typeof data.interactiveSubtitleFontSize !== 'number' ||
+    !Number.isFinite(data.interactiveSubtitleFontSize) ||
+    data.interactiveSubtitleFontSize < 0 ||
+    data.interactiveSubtitleFontSize > 64
+  ) {
+    data.interactiveSubtitleFontSize = 0
+  }
+  if (!['default', 'serif', 'mono', 'rounded'].includes(data.interactiveSubtitleFontFamily as string)) {
+    data.interactiveSubtitleFontFamily = 'default'
+  }
+  if (
+    typeof data.interactiveSubtitlePosition !== 'number' ||
+    !Number.isFinite(data.interactiveSubtitlePosition)
+  ) {
+    data.interactiveSubtitlePosition = 12
+  } else {
+    data.interactiveSubtitlePosition = Math.min(70, Math.max(2, data.interactiveSubtitlePosition))
+  }
   if (typeof data.proxyEnabled !== 'boolean') {
     data.proxyEnabled = false
   }
@@ -265,6 +337,28 @@ export const getSettingsSnapshot = (value: Partial<Store> | undefined = settings
   showDislikes: Boolean(value?.showDislikes),
   showOriginalVideoTitle: Boolean(value?.showOriginalVideoTitle),
   useSystemCaptionStyle: Boolean(value?.useSystemCaptionStyle),
+  interactiveSubtitles: Boolean(value?.interactiveSubtitles),
+  interactiveSubtitleStyle: value?.interactiveSubtitleStyle === 'rolling' ? 'rolling' : 'karaoke',
+  interactiveSubtitleColor:
+    typeof value?.interactiveSubtitleColor === 'string' && value.interactiveSubtitleColor
+      ? value.interactiveSubtitleColor
+      : '#ffd54a',
+  interactiveSubtitleTextColor:
+    typeof value?.interactiveSubtitleTextColor === 'string' && value.interactiveSubtitleTextColor
+      ? value.interactiveSubtitleTextColor
+      : '#ffffff',
+  interactiveSubtitleFontSize:
+    typeof value?.interactiveSubtitleFontSize === 'number' && Number.isFinite(value.interactiveSubtitleFontSize)
+      ? Math.min(64, Math.max(0, value.interactiveSubtitleFontSize))
+      : 0,
+  interactiveSubtitleFontFamily:
+    ['default', 'serif', 'mono', 'rounded'].includes(value?.interactiveSubtitleFontFamily as string)
+      ? (value!.interactiveSubtitleFontFamily as 'default' | 'serif' | 'mono' | 'rounded')
+      : 'default',
+  interactiveSubtitlePosition:
+    typeof value?.interactiveSubtitlePosition === 'number' && Number.isFinite(value.interactiveSubtitlePosition)
+      ? Math.min(70, Math.max(2, value.interactiveSubtitlePosition))
+      : 12,
   showBackButtonInHeader: Boolean(value?.showBackButtonInHeader),
   showForwardButtonInHeader: Boolean(value?.showForwardButtonInHeader),
   showHomeButtonInHeader: Boolean(value?.showHomeButtonInHeader),
@@ -338,6 +432,14 @@ export const settings$ = observable<Store>({
   showDislikes: false,
   showOriginalVideoTitle: false,
   useSystemCaptionStyle: false,
+  interactiveSubtitles: true,
+  interactiveSubtitleStyle: 'karaoke',
+  interactiveSubtitleColor: '#ffd54a',
+  interactiveSubtitleTextColor: '#ffffff',
+  interactiveSubtitleFontSize: 0,
+  interactiveSubtitleFontFamily: 'default',
+  interactiveSubtitlePosition: 12,
+  interactiveSubtitlesResetV2: true,
   showBackButtonInHeader: false,
   showForwardButtonInHeader: false,
   showHomeButtonInHeader: false,
