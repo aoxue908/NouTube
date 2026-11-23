@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "Chrome और Chrome वेब स्टोर में दिखने वाला एक्सटेंशन नाम।"
+  },
+  "extensionDescription": {
+    "message": "14 भाषाएँ व ऑन-डिवाइस अनुवाद। YouTube द्विभाषी उपशीर्षक, पूरे पेज व चुने हुए टेक्स्ट का अनुवाद और संदर्भ डिक्शनरी।",
+    "description": "Wordy की मुख्य भाषा-सीखने वाली सुविधाओं का Chrome वेब स्टोर के लिए संक्षिप्त सार।"
+  },
+  "extensionActionTitle": {
+    "message": "Wordy खोलें",
+    "description": "टूलबार में Wordy बटन का टूलटिप।"
+  }
+}

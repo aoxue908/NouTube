@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YouTube Transcript, Summary, AI Chatbot - SubKun",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "Get clean YouTube transcripts, AI summaries, and chat with any video. Smart segmentation makes them readable, not raw captions.",
+    "description": "Short description (max 132 chars)"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "擴充功能在 Chrome 和 Chrome 線上應用程式商店中顯示的名稱。"
+  },
+  "extensionDescription": {
+    "message": "支援 14 種語言與本機翻譯，提供 YouTube 雙語字幕、整頁翻譯、選取翻譯和語境詞典。",
+    "description": "概述 Wordy 核心語言學習功能的 Chrome 線上應用程式商店短摘要。"
+  },
+  "extensionActionTitle": {
+    "message": "開啟 Wordy",
+    "description": "Wordy 工具列按鈕的提示文字。"
+  }
+}

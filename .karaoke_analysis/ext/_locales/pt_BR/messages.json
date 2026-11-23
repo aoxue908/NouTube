@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YouTube legendas bilíngues, tradução, resumo IA - SubKun",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "Legendas bilíngues geradas por IA em 5 s. Segmentação inteligente e tradução natural. Entenda qualquer vídeo do YouTube.",
+    "description": "Short description (max 132 chars)"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YouTube 雙語字幕、翻譯、AI 總結 - 字幕君",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "YouTube 雙語字幕外掛，智慧斷句 AI 翻譯，5 秒極速生成。告別混亂斷句和生硬機翻，陪你輕鬆看懂這個世界。",
+    "description": "Short description (max 132 chars)"
+  }
+}

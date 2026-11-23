@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YouTube 이중언어 자막, 번역, AI 요약 - SubKun",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "AI가 5초 만에 만드는 YouTube 이중언어 자막. 똑똑한 문장 구분과 자연스러운 번역으로 어떤 영상도 내 언어로 이해하세요.",
+    "description": "Short description (max 132 chars)"
+  }
+}

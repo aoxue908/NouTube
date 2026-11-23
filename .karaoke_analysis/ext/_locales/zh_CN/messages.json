@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YouTube 双语字幕、翻译、AI 总结 - 雪球双语",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "智能断句AI翻译，5秒极速生成双语字幕。一键拯救生肉视频，告别混乱断句和生硬机翻，陪你轻松看懂这个世界。",
+    "description": "Short description (max 132 chars)"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Двуязычные субтитры YouTube, перевод и ИИ-конспект - SubKun",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "Двуязычные субтитры для YouTube за секунды: умная разбивка на фразы, естественный перевод, расшифровка и ИИ-чат по любому видео.",
+    "description": "Short description (max 132 chars)"
+  }
+}

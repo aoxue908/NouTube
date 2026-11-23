@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SubKun live ASR</title>
+</head>
+<body>
+<!-- 实时语音识别的运行页：由 src/contents/live-asr.ts 以隐藏 iframe 嵌进 YouTube 页面。
+     放在扩展自己的页面里跑，模型缓存归扩展所有，推理也不占 YouTube 的主线程。
+     扩展页 CSP 不允许内联脚本，所以全部是外链。 -->
+<script src="config.js"></script>
+<script src="ort/ort.all.min.js"></script>
+<script src="granite-engine.js"></script>
+<script src="frame.js"></script>
+</body>
+</html>

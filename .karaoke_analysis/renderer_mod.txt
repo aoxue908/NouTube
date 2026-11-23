@@ -1,0 +1,268 @@
+"1E1Tx":[function(e,t,n){let a,i,r,o,s,l,u,c,d,h,g,p;
+var _=e("@parcel/transformer-js/src/esmodule-helpers.js");
+_.defineInteropFlag(n),_.export(n,"invalidateTranslationCache",()=>O),_.export(n,"injectRendererDependencies",()=>eb),_.export(n,"updateRendererCache",()=>ey),_.export(n,"renderLiveLine",()=>eR),_.export(n,"resetSubtitleCache",()=>ez),_.export(n,"resetWordHighlightState",()=>eF),_.export(n,"clearLastDisplayedSubtitles",()=>eM),_.export(n,"initHighlightSettingsCache",()=>eN),_.export(n,"setSubtitleTimeOffset",()=>eB),_.export(n,"updateSubtitlesByTime",()=>eq),_.export(n,"initHighlightSettingsListener",()=>eU);
+var m=e("~/subtitle/Mix"),x=e("~/Db"),f=e("~/utils/subtitleAnnotations"),b=e("~/utils/soundCues"),y=e("~/subtitle/Engine"),w=e("~/subtitle/TranscriptionV2"),v=e("~/i18n"),k=e("~/utils/analytics"),D=e("~/utils/debugLog"),S=e("~/subtitle/TrackLang"),C=e("~/utils/chineseConversion"),T=e("~/content"),A=e("~/i18n/liveLang"),E=e("~/liveAsr/bridge");
+let P=e=>(0,v.tSync)(e,(0,A.getLiveLang)()),j="",I="",L="",R=0,z=0,F=null,M=null,N=null,B=null;
+
+function O(){B=null}let H=-1,q="",U=-1,K=!0,$=!0,G=267,W=.8,V="none",Y=!1,Z=!1,Q=!1,X=!1,J="",ee="",et="",en=new Map,ea=new Set,ei=new Map,er=0,eo=new Set,es=null,el="",eu="",ec="",ed=null,eh="",eg="",ep=!1,e_=!0,em=!1,ex=null,ef=-1;
+
+function eb(e){a=e.getThemeHighlightColor,i=e.updateSubtitles,o=e.showLoadingSubtitles,s=e.showSeekingSubtitles,l=e.isShowingLoadingSubtitles,u=e.stopLoadingMessageRotation,c=e.showTimeLimitPaywall,d=e.hasAvailableSubtitles,h=e.findLineAtTime,g=e.findNextLine,p=e.trackDailyWatchTime,r=e.triggerSubtitleExit}
+function ey(e){void 0!==e.cachedDailyLimitReached&&(ep=e.cachedDailyLimitReached),void 0!==e.cachedIsFreeUser&&(e_=e.cachedIsFreeUser)}
+function ew(e){return e.replace(/&/g,"&amp;
+").replace(/</g,"&lt;
+").replace(/>/g,"&gt;
+").replace(/"/g,"&quot;
+").replace(/'/g,"&#039;
+")}
+function ev(e){return e.toLowerCase().replace(/[^\p{L}\p{N}']/gu,"")}let ek="",eD=!1;
+
+function eS(e,t){let n=e.match(/[?!,;
+:]+$/)?.[0]||"",a=e.replace(/[?!,;
+:]+$/,""),i=ev(a),r=i?t.get(i):void 0;
+if(!r)return e;
+let o=/[.\-_]/.test(r);
+return o?function(e,t){if(t===t.toUpperCase())return e.toUpperCase();
+if(t===t.toLowerCase())return e.toLowerCase();
+let n="",a=0;
+for(let i=0;
+i<e.length;
+i++){let r=e[i];
+if(!/[a-zA-Z]/.test(r)){n+=r;
+continue}for(;
+a<t.length&&!/[a-zA-Z]/.test(t[a]);
+)a++;
+if(a<t.length){let e=t[a];
+n+=e===e.toUpperCase()?r.toUpperCase():r.toLowerCase(),a++}
+else n+=r.toLowerCase()}return n}(r,a)+n:e}let eC=/[\s\p{P}\p{S}\p{Z}\p{M}]/u,eT=/^\s*\[[^\]]*\]\s*$/,eA="",eE=[],eP=new Map,ej="";
+
+function eI(e,t,n,a,i,r,o){if("none"!==r){let n,a;
+return"black-yellow"===r?(n="oklch(0 0 0)",a="oklch(0.9285 0.1803 102.5)"):(n="oklch(0.9285 0.1803 102.5)",a="oklch(0 0 0)"),`<span style="position: relative;
+ display: inline;
+"><span style="opacity: ${t?"0":"1"};
+ ${o?"":"transition: opacity 0.15s ease-in-out;
+"} ${t?"visibility: hidden;
+ pointer-events: none;
+":""}">${e}</span><span style="position: absolute;
+ left: 0;
+ background-color: ${n};
+ color: ${a};
+ border-radius: 4px;
+ padding: 0 4px;
+ margin: 0 -4px;
+ filter: none;
+ -webkit-text-stroke: 0;
+ opacity: ${t?"1":"0"};
+ ${o?"":"transition: opacity 0.15s ease-in-out;
+"} ${t?"":"visibility: hidden;
+ pointer-events: none;
+"}">${e}</span></span>`}if(i||a){let r=i&&t?`color: ${n};
+`:"",s=a?`border-bottom: 2px solid ${a&&t?n:"transparent"};
+`:"";
+return`<span${t?' data-snow-hl="true"':""} style="${r} ${s} ${o?"":"transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+"}">${e}</span>`}return`<span>${e}</span>`}
+function eL(e,t,n,a,i,r=!0,o="none",s=!1,l){if(!e)return"";
+if(e!==ek&&(ek=e,eD=(0,S.isSpacelessText)(e)),eD)return function(e,t,n,a,i,r,o,s,l){let u=function(e,t){let n=t||[],a=`${e}|${n.length}|${n[0]?.start??""}|${n[n.length-1]?.end??""}`;
+return a!==eA&&(eA=a,eE=function(e,t,n){if(t.length<2)return t;
+let a=function(e,t){let n=t??"",a=eP.get(n);
+a||(a=new Intl.Segmenter(t,{granularity:"word"}),eP.set(n,a));
+let i=new Set([0,e.length]);
+for(let t of a.segment(e))i.add(t.index);
+return i}(e,n),i=[],r=0,o=0;
+for(let n=0;
+n<t.length;
+n++){let s=o+=t[n].text.length;
+if(n<t.length-1&&!a.has(s))for(let t=1;
+t<=4;
+t++){if(a.has(s-t)&&s-t>r){s-=t;
+break}if(a.has(s+t)&&s+t<e.length){s+=t;
+break}}n===t.length-1&&(s=e.length);
+let l=i[i.length-1];
+if(s<=r){l&&(l.end=Math.max(l.end,t[n].end));
+continue}i.push({text:e.slice(r,s),start:t[n].start,end:t[n].end}),r=s}return i.length?i:t}(e,function(e,t){let n=[];
+for(let t=0;
+t<e.length;
+t++){let a=e.charCodeAt(t),i=a>=55296&&a<=56319&&t+1<e.length,r=i?e.slice(t,t+2):e[t];
+eC.test(r)||n.push(t),i&&t++}let a=n.length,i=(t||[]).filter(e=>!!e&&!!e.word&&!eT.test(e.word)).map(e=>({start:e.start,end:e.end,word:e.word})).sort((e,t)=>e.start-t.start);
+if(0===a||0===i.length)return e?[{text:e,start:Number.POSITIVE_INFINITY,end:Number.NEGATIVE_INFINITY}]:[];
+let r=i.map(e=>(function(e){let t=0;
+for(let n=0;
+n<e.length;
+n++){let a=e.charCodeAt(n),i=a>=55296&&a<=56319&&n+1<e.length,r=i?e.slice(n,n+2):e[n];
+!eC.test(r)&&t++,i&&n++}return t})(e.word)),o=r.reduce((e,t)=>e+t,0);
+0===o&&(r.fill(1),o=r.length);
+let s=[0],l=0;
+for(let e=0;
+e<r.length;
+e++){l+=r[e];
+let t=e===r.length-1?a:Math.round(a*l/o);
+s.push(Math.min(a,Math.max(s[e],t)))}let u=[];
+for(let e=0;
+e<i.length;
+e++){let t=s[e],n=s[e+1],a=i[e].start,r=Math.max(i[e].end,i[e].start+.001);
+if(n<=t){u.length>0?u[u.length-1].end=Math.max(u[u.length-1].end,r):e+1<i.length&&(i[e+1].start=Math.min(i[e+1].start,a));
+continue}let o=n-t,l=Math.max(1,Math.ceil(o/6));
+for(let e=0;
+e<l;
+e++)u.push({vs:t+Math.round(o*e/l),ve:e===l-1?n:t+Math.round(o*(e+1)/l),start:a+(r-a)*e/l,end:a+(r-a)*(e+1)/l})}let c=[];
+for(let t=0;
+t<u.length;
+t++){let i=u[t],r=0===t?0:n[i.vs],o=t===u.length-1||i.ve>=a?e.length:n[i.ve],s=e.slice(r,o);
+s&&c.push({text:s,start:i.start,end:i.end})}return 0===c.length?e?[{text:e,start:Number.POSITIVE_INFINITY,end:Number.NEGATIVE_INFINITY}]:[]:c}(e,n),(0,S.getDetectedTrackLang)(x.currentUUID||"")||void 0)),eE}(e,n);
+x.currentUUID&&ej!==x.currentUUID&&(ej=x.currentUUID,(0,D.dlog)("[Renderer] \u65e0\u7a7a\u683c\u6587\u5b57\u6e32\u67d3\u8def\u5f84\u5df2\u542f\u7528\uff08\u6574\u53e5\u6587\u672c + \u65f6\u95f4\u2192\u5b57\u7b26\u9ad8\u4eae\uff09",{videoId:x.currentUUID,sample:e.slice(0,40),words:(n||[]).length,cells:u.length}));
+let c=u.map(e=>[...e.text].every(e=>eC.test(e)));
+if(!t)return u.map((e,t)=>c[t]?ew(e.text):`<span>${ew(e.text)}</span>`).join("");
+let d=a??t.start??Number.NaN,h=-1;
+if(Number.isFinite(d)){for(let e=0;
+e<u.length;
+e++)if(u[e].start<=d&&u[e].end>d){h=e;
+break}if(-1===h||c[h]){h=-1;
+for(let e=0;
+e<u.length;
+e++)u[e].start<=d&&!c[e]&&(h=e)}}return u.map((e,t)=>c[t]?ew(e.text):eI(ew(e.text),t===h,i,r,o,s,l)).join("")}(e,t,n,l,a,i,r,o,s);
+if(e!==et&&(et=e,en.clear(),n&&n.length>0))for(let e of n){if(!e||!e.word)continue;
+let t=ev(e.word);
+t&&!en.has(t)&&en.set(t,e.word)}let u=e.split(/(\s+)/);
+if(!t)return u.map(e=>{if(/^\s+$/.test(e))return e;
+let t=eS(e,en),n=ew(t);
+return`<span>${n}</span>`}).join("");
+let c=ev(t.word);
+e!==q&&(q=e,U=-1,H=-1);
+let d=t.id??-1,h=d!==H,g=-1;
+if(h){let e=U;
+if(U<0&&void 0!==t.start){let a=t.start,i=n.filter(e=>e.start<a).length;
+e=Math.max(-1,i-2)}let a=-1,i=0;
+for(let t=0;
+t<u.length;
+t++){let n=u[t];
+if(/^\s+$/.test(n)||++a<=e)continue;
+if(++i>3)break;
+let r=ev(n);
+if(r&&r===c){g=t,U=a,H=d;
+break}}-1===g&&(H=d)}
+else{let e=-1;
+for(let t=0;
+t<u.length;
+t++)if(!/^\s+$/.test(u[t])&&++e===U){g=t;
+break}}return u.map((e,t)=>{if(/^\s+$/.test(e))return e;
+let n=eS(e,en);
+return eI(ew(n),t===g,a,i,r,o,s)}).join("")}
+function eR(e,t,n){let i=K||$,r=i&&t.find(e=>e.start<=n&&e.end>n)||null;
+return eL(e,r,t,a(G,W),$,K,V,Y,n)}
+function ez(){F=null,N=null,B=null}
+function eF(){H=-1,q="",U=-1}
+function eM(){j="",I="",L="",R=0,eF(),ez(),ea.clear(),ei.clear(),er=0,eo.clear()}async 
+function eN(){let e=await chrome.storage.local.get(["word_highlight_enabled","word_underline_enabled","word_highlight_color_hue","word_highlight_color_lightness","high_contrast_block_mode","reduce_motion_enabled","translation_style_fun_mode","short_segments_enabled","sound_cues_enabled","sourceLanguage","targetLanguage"]);
+K=void 0===e.word_highlight_enabled||e.word_highlight_enabled,$=void 0===e.word_underline_enabled||e.word_underline_enabled,G=void 0!==e.word_highlight_color_hue?e.word_highlight_color_hue:267,W=void 0!==e.word_highlight_color_lightness?e.word_highlight_color_lightness:.8,V=e.high_contrast_block_mode||"none",Y=!0===e.reduce_motion_enabled,Z=5===e.translation_style_fun_mode,Q=!0===e.short_segments_enabled,X=!0===e.sound_cues_enabled,J="string"==typeof e.sourceLanguage?e.sourceLanguage:"",ee="string"==typeof e.targetLanguage?e.targetLanguage:""}
+function eB(e){z=e}let eO={videoId:null,time:-1,label:null};
+async 
+function eH(e,t){if(eO.videoId===x.currentUUID&&.25>Math.abs(t-eO.time))return eO.label;
+let n=await (0,x.findWordsInRange)(e,Math.max(0,t-30),t),a=null;
+for(let e=n.length-1;
+e>=0;
+e--){let i=n[e];
+if(i.start>t)continue;
+let r=(0,b.soundCueLabel)(i.word,P);
+if(!r)break;
+t<=Math.max(i.end,i.start+2)&&(a=r);
+break}return eO={videoId:x.currentUUID,time:t,label:a},
+a}async 
+function eq(e){let t;
+let n=x.currentUUID,_=()=>n!==x.currentUUID,b=(e,t,n,a)=>{(e||t)&&_()||function(e,t,n,a){let r=n??t,o=r!==eh||e!==eg,s=!1,l=!1;
+if(o&&(s=!!(eh||eg),l=!!(r||e),eh=r,eg=e),i(e,t,a),function(){let e=x.currentUUID||"",t=(0,S.getDetectedTrackLang)(e)||"",n=ee;
+if(e===eu&&t===es&&n===el)return;
+let a=document.getElementById("english-subtitle");
+if(!a)return;
+a.setAttribute("dir","auto"),t?a.setAttribute("lang",t):a.removeAttribute("lang");
+let i=document.getElementById("chinese-subtitle");
+i&&(i.setAttribute("dir","auto"),n?i.setAttribute("lang",n):i.removeAttribute("lang")),es=t,el=n,eu=e}(),o){let t=!s&&l?"[Subtitle][SHOW]  ":s&&!l?"[Subtitle][HIDE]  ":"[Subtitle][CHANGE]",n=T.videoLoadStartTime?((performance.now()-(0,T.videoLoadStartTime))/1e3).toFixed(1)+"s":"\u2014",a=document.getElementById("snowcc"),i=document.getElementById("snowcc-body"),o=a?getComputedStyle(a):null,u=i?getComputedStyle(i):null,c=a?i?`cc(d=${o.display},
+o=${o.opacity},
+v=${o.visibility}) body(d=${u.display},
+o=${u.opacity},
+inline=${i.style.display||"\u2014"})`:"#snowcc-body=null":"#snowcc=null";
+(0,D.dlog)(`${t}  ${n}  ${c}
+\u250c\u2500 \u539f\u6587 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+\u2502 ${r||"(empty)"}
+\u251c\u2500 \u8bd1\u6587 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+\u2502 ${e||"(empty)"}
+\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500`)}}(e,t,n,a)};
+if(!i||!h){console.warn("[SubtitleRenderer] Dependencies not injected yet");
+return}if((0,E.readLiveAsr)())return;
+if(document.querySelector("#movie_player.ad-showing")){l()&&u(),b("","");
+return}if(ep){em||(await c(),em=!0);
+return}if(ex&&ex.isConnected||(ex=document.querySelector("video")),!ex)return;
+let v=ex,A=v.duration;
+if(y.bufferLength>0&&e_&&p){let e=await p();
+if(e){ep=!0,await c(),b("","");
+return}}if(!x.currentUUID)return;
+let O=(0,x.getVideoid)();
+if(O&&O!==x.currentUUID){b("","");
+return}M!==x.currentUUID&&(ez(),M=x.currentUUID),(0,y.prepareSubtitles)(e,A);
+let H=await (0,x.getCurrentDB)();
+if(!H)return;
+let q=e-z;
+if(e>y.bufferLength&&l()&&!await h(H,q))return;
+let U=null;
+if(F&&q>=F.t1&&q<=F.t2)U=F;
+
+else{if(U=await h(H,q),_())return;
+U?(F&&F.index===U.index||(N=null,B=null),F=U):(F=null,N=null,B=null)}if(!U){if(!d()){b(P("subtitle.No_Auto_Subtitles"),P("subtitle.No_Auto_Subtitles"));
+return}if(X){let e=await eH(H,q);
+if(_())return;
+if(e){l()&&u(),b(e,"");
+return}}let t=await g(H,q);
+if(t){let e=!1;
+if(I&&R>0){let n=t.t1-R;
+n<1&&(e=!0)}if(e)b(j,I,L);
+
+else if(b("",""),l()&&u(),R>0&&!eo.has(R)){let e=t.t1-R;
+if(e>1.5){eo.add(R);
+let n=await (0,x.findWordsInRange)(H,R,t.t1);
+n.length>0&&(0,k.logEvent)("subtitle_gap_in_buffer",{video_id:x.currentUUID,gap_start:Math.round(100*R)/100,gap_size:Math.round(100*e)/100,buffer_length:Math.round(y.bufferLength),next_line_t1:Math.round(100*t.t1)/100,words_in_range:n.length})}}er=0}
+else if(e>y.bufferLength)y.chunk_ended?(b("",""),l()&&u()):y.snowError||(0===y.bufferLength?await o():await s(),j="",I="",L="");
+
+else{if(0===er)er=e;
+
+else if(e-er>5){let t=await (0,x.findWordsInRange)(H,er,e);
+t.length>0&&(0,k.logEvent)("subtitle_gap_in_buffer",{video_id:x.currentUUID,blank_start:Math.round(er),blank_duration:Math.round(e-er),buffer_length:Math.round(y.bufferLength),next_line_t1:null,words_in_range:t.length}),er=0}b("",""),l()&&u()}return}l()&&u(),er=0;
+let et=null;
+Q&&U.parts&&U.parts.length>=2&&(et=U.parts.find(e=>q<e.t2)??U.parts[U.parts.length-1]);
+let en=U.t2-U.t1;
+if(en>15){let e=`${x.currentUUID}_long_sentence_${U.index}`;
+ea.has(e)||(ea.add(e),(0,k.logEvent)("subtitle_long_sentence",{video_id:x.currentUUID,line_index:U.index,t1:Math.round(U.t1),t2:Math.round(U.t2),duration:Math.round(en),text_preview:U.line?.substring(0,100)}))}if(et)t=et.trans||"";
+
+else{if(!B){let e=await (0,x.getTranslation)(U.index)||"";
+if(_())return;
+B=e}t=B}let eb=(0,f.stripAnnotations)(t),ey=(0,S.isMonolingualVideo)(x.currentUUID,J,ee)?"":Z?eb.replace(/\u7684(?![\u8bf4\u786e\u8bdd])/g,"\u306e"):eb,ew=(0,f.stripAnnotations)(et?et.line:U.line),ek=(0,S.originalScriptTarget)(x.currentUUID,ee,ew),eD=ek&&ew?(0,C.convertChineseScript)(ew,ek):ew;
+(0,m.pumpMix)(U.index);
+let eS=(0,m.mixSegments)(U.index,ey,ew);
+eS&&(0,m.noteMixShown)(eS);
+let eC=eS?(0,m.mixSegmentsToHtml)(eS):ey;
+if(eS&&function(){let e=document.getElementById("chinese-subtitle");
+if(!e)return;
+let t=a(G,W);
+(t!==ec||e!==ed)&&(e.style.setProperty("--snow-mix-color",t),ec=t,ed=e)}(),r&&U.index!==ef&&U.t2-q<.12&&U.t2-q>0&&(ef=U.index,r()),eD&&!ey&&!function(e){let t=e.trim();
+return!!(!t||/^[\s\uff03#\-\u2014_.\u00b7]+$/.test(t))}(eD)&&(0,w.isVideoTranslationDone)(x.currentUUID)&&function(e,t,n){let a=x.currentUUID;
+if(!a)return;
+let i=`${a}_translation_missing_${t}`;
+ea.has(i)||(ea.add(i),(0,k.logEvent)("subtitle_translation_missing",{video_id:a,timestamp:Math.round(100*e)/100,line_index:t,english_text:n.substring(0,100)}))}(e,U.index,eD),(K||$)&&eD){if(!N){let e=new Set,t=await (0,x.findWordsInRange)(H,U.t1,U.t2);
+if(_())return;
+N=t.filter(t=>{var n;
+if(n=t.word,/^[[(\uff08\u3010].*[\])\uff09\u3011]$/.test(n)||""===ev(n))return!1;
+let a=`${t.start}|${t.end}|${t.word}`;
+return!e.has(a)&&(e.add(a),!0)}).map(e=>({...e,start:Math.max(e.start,U.t1),end:Math.min(e.end,U.t2)}))}let t=et?N.filter(e=>e.start<et.t2&&e.end>et.t1):N;
+if(0===t.length){let t=Date.now(),n=ei.get(U.index);
+void 0===n?ei.set(U.index,t):t-n>150&&(function(e,t,n,a){let i=x.currentUUID;
+if(!i)return;
+let r=`${i}_${e}_${n}`;
+ea.has(r)||(ea.add(r),(0,k.logEvent)("subtitle_quality_issue",{video_id:i,timestamp:Math.round(100*t)/100,issue_type:e,line_index:n,english_text:a?.substring(0,100)}))}("missing_word_timestamps",e,U.index,eD),ei.delete(U.index))}
+else ei.delete(U.index);
+let n=t.find(e=>e.start<=q&&e.end>q)||null,i=a(G,W),r=eL(eD,n,t,i,$,K,V,Y,q);
+b(eC||"",r,eD,U.index),I=eL(eD,null,t,i,$,K,V,Y)}
+else b(eC||"",eD||"",eD||"",U.index),I=eD||"";
+j=eC||"",L=eD||"",R=U.t2}
+function eU(){chrome.storage.onChanged.addListener(async(e,t)=>{if("local"!==t)return;
+let n=["word_highlight_enabled","word_underline_enabled","word_highlight_color_hue","word_highlight_color_lightness","high_contrast_block_mode","reduce_motion_enabled","translation_style_fun_mode","short_segments_enabled","sound_cues_enabled","sourceLanguage","targetLanguage"].some(t=>t in e);
+if(n){await eN();
+let t=void 0!==e.word_highlight_color_hue||void 0!==e.word_highlight_color_lightness,n=void 0!==e.sourceLanguage||void 0!==e.targetLanguage;
+(t||n)&&ex&&await eq(ex.currentTime)}})}},
+{"~/subtitle/Mix":"4mZwV","~/Db":"3o84m","~/utils/subtitleAnnotations":"f8jkc","~/utils/soundCues":"9tHcY","~/subtitle/Engine":"wCV2D","~/subtitle/TranscriptionV2":"9UHk0","~/i18n":"jJP10","~/utils/analytics":"jNjPG","~/utils/debugLog":"2EcBl","~/subtitle/TrackLang":"81aSy","~/utils/chineseConversion":"l1JwL","~/content":"68oK5","~/i18n/liveLang":"iUy5n","~/liveAsr/bridge":"dcpnc","@parcel/transformer-js/src/esmodule-helpers.js":"cHUbl"}]

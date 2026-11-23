@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "Nome da extensão exibido no Chrome e na Chrome Web Store."
+  },
+  "extensionDescription": {
+    "message": "14 idiomas, tradução no dispositivo, legendas bilíngues no YouTube, tradução de páginas e seleções, dicionário contextual.",
+    "description": "Resumo curto para a Chrome Web Store dos principais recursos de aprendizagem do Wordy."
+  },
+  "extensionActionTitle": {
+    "message": "Abrir o Wordy",
+    "description": "Dica do botão do Wordy na barra de ferramentas."
+  }
+}

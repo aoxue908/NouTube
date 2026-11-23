@@ -1,0 +1,20 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="108"
+  height="82"
+  viewBox="10 28 108 82"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  data-wordy-mark=""
+>
+  <title>Wordy</title>
+  <path
+    fill="#007A35"
+    d="M30 34h58c9 0 16 7 16 16s-7 16-16 16h-8c-5 0-8 2-11 5l-2 2c-2 2-4 2-6 0l-2-2c-3-3-6-5-11-5H30c-9 0-16-7-16-16s7-16 16-16Z"
+  />
+  <path
+    fill="#00D166"
+    d="M48 72h2c5 0 8 2 11 5l2 2c2 2 4 2 6 0l2-2c3-3 6-5 11-5h16c9 0 16 7 16 16s-7 16-16 16H48c-9 0-16-7-16-16s7-16 16-16Z"
+  />
+</svg>

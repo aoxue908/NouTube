@@ -48,3 +48,9 @@ fastlane/Preview.html
 fastlane/metadata/ios/en-US/release_notes.txt
 *.log
 *.apk
+
+# 本地分析与工具配置
+.vscode/
+.workbuddy/
+.karaoke_analysis/
+**/.gradle/

@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YouTube バイリンガル字幕・翻訳・AI 要約 - 字幕くん",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "AIが5秒で生成するYouTubeの二か国語・バイリンガル字幕。賢い文区切りと自然な翻訳で、どんな動画もあなたの言葉で楽しめます。",
+    "description": "Short description (max 132 chars)"
+  }
+}

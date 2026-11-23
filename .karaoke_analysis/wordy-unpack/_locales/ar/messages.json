@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "اسم الإضافة الظاهر في Chrome ومتجر Chrome الإلكتروني."
+  },
+  "extensionDescription": {
+    "message": "يدعم 14 لغة والترجمة على الجهاز، مع ترجمات مصاحبة ثنائية اللغة على YouTube، وترجمة صفحات الويب بالكامل والنص المحدد، وقاموس سياقي.",
+    "description": "ملخص قصير لأهم ميزات تعلّم اللغات في Wordy لمتجر Chrome الإلكتروني."
+  },
+  "extensionActionTitle": {
+    "message": "فتح Wordy",
+    "description": "تلميح زر Wordy في شريط الأدوات."
+  }
+}

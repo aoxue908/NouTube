@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "Название расширения в Chrome и интернет-магазине Chrome."
+  },
+  "extensionDescription": {
+    "message": "14 языков, перевод на устройстве, двуязычные субтитры YouTube, перевод страниц целиком и выделенного текста, контекстный словарь.",
+    "description": "Краткое описание основных функций Wordy для изучения языков в интернет-магазине Chrome."
+  },
+  "extensionActionTitle": {
+    "message": "Открыть Wordy",
+    "description": "Подсказка для кнопки Wordy на панели инструментов."
+  }
+}

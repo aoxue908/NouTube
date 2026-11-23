@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "Chrome と Chrome ウェブストアに表示される拡張機能名です。"
+  },
+  "extensionDescription": {
+    "message": "14言語と端末内翻訳に対応。YouTubeの二言語字幕、ページ全体の翻訳、選択翻訳、文脈付き辞書を利用できます。",
+    "description": "Wordy の主な語学学習機能を説明する Chrome ウェブストア用の短い概要です。"
+  },
+  "extensionActionTitle": {
+    "message": "Wordyを開く",
+    "description": "Wordy のツールバーボタンに表示されるヒントです。"
+  }
+}

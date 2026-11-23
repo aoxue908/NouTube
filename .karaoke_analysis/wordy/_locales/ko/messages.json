@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "Chrome과 Chrome 웹 스토어에 표시되는 확장 프로그램 이름입니다."
+  },
+  "extensionDescription": {
+    "message": "14개 언어와 기기 내 번역을 지원합니다. YouTube 이중 언어 자막, 전체 페이지 번역, 선택 영역 번역, 문맥 사전을 제공합니다.",
+    "description": "Wordy의 핵심 언어 학습 기능을 설명하는 Chrome 웹 스토어용 짧은 요약입니다."
+  },
+  "extensionActionTitle": {
+    "message": "Wordy 열기",
+    "description": "Wordy 툴바 버튼의 도움말입니다."
+  }
+}

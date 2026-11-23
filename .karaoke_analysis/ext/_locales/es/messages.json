@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YouTube subtítulos bilingües, traducción, resumen IA - SubKun",
+    "description": "Extension name shown in Chrome Web Store"
+  },
+  "extDescription": {
+    "message": "Subtítulos bilingües con IA en 5 s. Segmentación inteligente y traducción natural. Entiende cualquier vídeo de YouTube en tu idioma.",
+    "description": "Short description (max 132 chars)"
+  }
+}

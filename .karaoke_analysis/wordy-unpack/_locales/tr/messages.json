@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Wordy",
+    "description": "Chrome ve Chrome Web Mağazası'nda gösterilen uzantı adı."
+  },
+  "extensionDescription": {
+    "message": "14 dili ve cihaz içi çeviriyi destekler; çift dilli YouTube altyazıları, tam sayfa ve seçili metin çevirisi, bağlamsal sözlük sunar.",
+    "description": "Wordy'nin temel dil öğrenme özelliklerinin Chrome Web Mağazası için kısa özeti."
+  },
+  "extensionActionTitle": {
+    "message": "Wordy’yi aç",
+    "description": "Araç çubuğundaki Wordy düğmesinin ipucu."
+  }
+}

@@ -1,0 +1,1 @@
+const _={getPageSelection:"WORDY_DICT_GET_PAGE_SELECTION",renderPopover:"WORDY_DICT_RENDER_POPOVER",translateContextMenu:"WORDY_DICT_TRANSLATE_CONTEXT_MENU",dismissPopover:"WORDY_DICT_DISMISS_POPOVER"};export{_ as D};
